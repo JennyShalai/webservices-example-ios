@@ -45,12 +45,35 @@ struct HTTPRequestHandler: RequestHandler {
     var body: Any?
     
     func execute( callback: @escaping (Result<Any>) -> Void) {
-        var returnValue = 0
-        if let body = body as? [String: String] {
-            returnValue = body["args"] == "on" ? 1 : 0
+        guard let url = URL(string: path) else {
+            callback(.failure(RequestError.invalidURL))
+            return
         }
         
-        let fakeData = ["return_value": returnValue, "result": 0]
+        // create your URL Request
+        
+        if let headers = headers {
+            for (key, value) in headers {
+                // add each header value to the appropriate header key
+            }
+        }
+        
+        if let body = body {
+            // set the httpBody of your request serialized JSON
+        }
+        
+        // create a data task using URL Session with your new request
+        // we'll need to case our response as an HTTPURLResponse
+        // we'll also need to deserialize our data
+        
+        // you mind find this snippet handy for debugging
+        //    if let str = String(data: data, encoding: String.Encoding.utf8) {
+        //        print("Received response: \(str)")
+        //    }
+       
+        //    task.resume()
+        
+        let fakeData = ["color": "#FF0000", "name": "Cookie Cat"]
         callback(.success(fakeData))
     }
 }
